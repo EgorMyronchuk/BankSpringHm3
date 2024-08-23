@@ -1,5 +1,7 @@
 package app.controllers;
 
+import app.facade.CustomerFacade;
+import app.utils.CustomCurrency;
 import lombok.RequiredArgsConstructor;
 import app.model.Account;
 import org.springframework.http.HttpStatus;
@@ -17,9 +19,6 @@ import java.util.Optional;
 public class AccountController {
 
     private final AccountService accountService;
-
-    private final static ResponseEntity<Account> emptyBook =
-            ResponseEntity.notFound().build();
 
     @PostMapping("deposit")
     public ResponseEntity<?> deposit (@RequestParam String cardNumber ,@RequestParam  Double amount) {

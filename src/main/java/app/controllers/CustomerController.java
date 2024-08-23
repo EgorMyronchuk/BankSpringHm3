@@ -1,5 +1,11 @@
 package app.controllers;
 
+import app.dto.AccountRequest;
+import app.dto.CustomerRequest;
+import app.dto.CustomerResponse;
+import app.facade.AccountFacade;
+import app.facade.CustomerFacade;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import app.model.Account;
 import app.model.Customer;
@@ -9,6 +15,7 @@ import app.utils.CustomCurrency;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,25 +23,30 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService customerService;
+    private final CustomerFacade customerFacade;
+    private final AccountFacade accountFacade;
 
     @GetMapping("{id}")
-    public Customer getCustomerById(@PathVariable Long id) {
-        return customerService.getCustomerById(id);
+    public CustomerResponse getCustomerById(@PathVariable Long id) {
+        return customerFacade.convertToResponse(customerService.getCustomerById(id));
     }
 
     @GetMapping
-    public List<Customer> getAllCustomers() {
-        return customerService.getAllCustomers();
+    public List<CustomerResponse> getAllCustomers() {
+        List<Customer> responsesList = customerService.getAllCustomers();
+        return responsesList.stream()
+                .map(customerFacade::convertToResponse)
+                .collect(Collectors.toList());
     }
 
     @PostMapping
-    public void saveCustomer(@RequestBody Customer customer) {
-        customerService.saveCustomer(customer);
+    public void saveCustomer(@Valid @RequestBody CustomerRequest customer) {
+        customerService.saveCustomer(customerFacade.convertToEntity(customer));
     }
 
     @PutMapping("{id}") //After change on token
-    public void changeCustomer(@PathVariable Long id, @RequestBody Customer customer) {
-        customerService.changeCustomer(id, customer);
+    public void changeCustomer(@PathVariable Long id, @RequestBody CustomerRequest customer) {
+        customerService.changeCustomer(id, customerFacade.convertToEntity(customer));
     }
 
     @DeleteMapping("{id}")
@@ -48,7 +60,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("{id}/accounts")
-    public void deleteAccountForCustomer(@PathVariable Long id, @RequestBody Account account) {
-        customerService.deleteAccountForCustomer(id, account);
+    public void deleteAccountForCustomer(@PathVariable Long id, @RequestBody AccountRequest account) {
+        customerService.deleteAccountForCustomer(id,accountFacade.convertToEntity(account));
     }
 }

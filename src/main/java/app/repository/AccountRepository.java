@@ -12,6 +12,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     Optional<Account> findByNumber(String Number);
 
-    @Query("SELECT a FROM Account a ORDER BY a.id DESC Limit 1")
+    @Query("SELECT a FROM Account a ORDER BY a.createdDate DESC Limit 1")
     Account findMostRecentAccount();
 }
