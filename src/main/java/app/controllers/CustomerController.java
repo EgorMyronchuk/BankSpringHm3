@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import app.model.Account;
 import app.model.Customer;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import app.service.CustomerService;
 import app.utils.CustomCurrency;
@@ -32,11 +33,12 @@ public class CustomerController {
     }
 
     @GetMapping
-    public List<CustomerResponse> getAllCustomers() {
-        List<Customer> responsesList = customerService.getAllCustomers();
-        return responsesList.stream()
-                .map(customerFacade::convertToResponse)
-                .collect(Collectors.toList());
+    public Page<CustomerResponse> getAllCustomers(
+            @RequestParam(defaultValue = "0" ) int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Page<Customer> pagedCustomers = customerService.getAllCustomers(page , size);
+
+        return pagedCustomers.map(customerFacade::convertToResponse);
     }
 
     @PostMapping
@@ -44,7 +46,7 @@ public class CustomerController {
         customerService.saveCustomer(customerFacade.convertToEntity(customer));
     }
 
-    @PutMapping("{id}") //After change on token
+    @PutMapping("{id}")
     public void changeCustomer(@PathVariable Long id, @RequestBody CustomerRequest customer) {
         customerService.changeCustomer(id, customerFacade.convertToEntity(customer));
     }

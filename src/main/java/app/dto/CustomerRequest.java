@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomerRequest {
-    @NotBlank
+    @NotNull
     @Size(min = 2, message = "user name should have at least 2 characters")
     private String name;
 
@@ -29,7 +29,7 @@ public class CustomerRequest {
     )
     private String email;
 
-    @NotBlank
+    @NotNull
     @Min(18)
     private Integer age;
 
@@ -37,7 +37,7 @@ public class CustomerRequest {
     @Size(min = 6, message = "Password must be at least 6 characters long")
     private String password;
 
-    @Pattern(regexp = "(\\+38|0)[0-9]{9}")
+    @Pattern(regexp = "(\\+38|0)[0-9]{9}",message = "Invalid phone format")
     @NotBlank
     private String phone;
 

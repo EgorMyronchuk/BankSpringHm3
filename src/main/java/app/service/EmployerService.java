@@ -35,21 +35,4 @@ public class EmployerService {
     public void saveEmployer(Employer employer) {
         employerRepository.save(employer);
     }
-
-    public void changeEmployer(Long id, Employer employer) {
-        if (!employerRepository.existsById(id)) {
-            throw new EntityNotFoundException("No Employer by id : " + id);
-        }
-        employer.setId(id); // Устанавливаем ID клиента, чтобы обновить существующего клиента
-        employerRepository.save(employer);
-    }
-
-    public void deleteCustomer(Long id) {
-        if (!employerRepository.existsById(id)) {
-            throw new EntityNotFoundException("No Employer by id : " + id);
-        }
-        employerRepository.deleteById(id);
-    }
-
-
 }

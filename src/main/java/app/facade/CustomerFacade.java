@@ -6,33 +6,19 @@ import app.dto.EmployerRequest;
 import app.dto.EmployerResponse;
 import app.model.Customer;
 import app.model.Employer;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CustomerFacade {
 
-    public Customer convertToEntity(CustomerRequest customerRequest) {
-        Customer customer = new Customer();
-        customer.setName(customerRequest.getName());
-        customer.setEmail(customerRequest.getEmail());
-        customer.setAge(customerRequest.getAge());
-        customer.setPassword(customerRequest.getPassword());
-        customer.setPhone(customerRequest.getPhone());
+    private final ModelMapper modelMapper = new ModelMapper();
 
-        return customer;
+    public Customer convertToEntity(CustomerRequest customerRequest) {
+        return modelMapper.map(customerRequest, Customer.class);
     }
 
     public CustomerResponse convertToResponse(Customer customer) {
-        CustomerResponse response = new CustomerResponse();
-        response.setId(customer.getId());
-        response.setName(customer.getName());
-        response.setEmail(customer.getEmail());
-        response.setAge(customer.getAge());
-        response.setPhone(customer.getPhone());
-        response.setAccounts(customer.getAccounts());
-        response.setEmployers(customer.getEmployers());
-
-        return response;
+        return modelMapper.map(customer, CustomerResponse.class);
     }
-
 }

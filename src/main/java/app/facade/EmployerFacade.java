@@ -3,25 +3,19 @@ package app.facade;
 import app.dto.EmployerRequest;
 import app.dto.EmployerResponse;
 import app.model.Employer;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EmployerFacade {
 
-    public Employer convertToEntity(EmployerRequest employerRequest) {
-        Employer employer = new Employer();
-        employer.setName(employerRequest.getName());
-        employer.setAddress(employerRequest.getAddress());
+    private final ModelMapper modelMapper = new ModelMapper();
 
-        return employer;
+    public Employer convertToEntity(EmployerRequest employerRequest) {
+        return modelMapper.map(employerRequest, Employer.class);
     }
 
     public EmployerResponse convertToResponse(Employer employer) {
-        EmployerResponse employerResponse = new EmployerResponse();
-        employerResponse.setId(employer.getId());
-        employerResponse.setName(employer.getName());
-        employerResponse.setAddress(employer.getAddress());
-
-        return employerResponse;
+        return modelMapper.map(employer, EmployerResponse.class);
     }
 }

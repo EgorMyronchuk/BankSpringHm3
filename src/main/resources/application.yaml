@@ -15,8 +15,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
-    defer-datasource-initialization: true
-
 
   h2:
     console:
@@ -27,11 +25,6 @@ spring:
     url: jdbc:h2:mem:BankDbLocal
     username: sa
     password: sa
-
-  sql:
-    init:
-      data-locations: classpath:data-local.sql
-      mode: always
 
 ---
 spring:

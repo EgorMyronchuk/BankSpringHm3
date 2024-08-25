@@ -5,6 +5,7 @@ import app.utils.CustomCurrency;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
@@ -19,9 +20,10 @@ import lombok.Setter;
 public class AccountRequest {
     @NotBlank
     private String number;
-    @NotBlank
+
+    @NotEmpty
     private CustomCurrency currency;
-    @NotBlank
+
     @PositiveOrZero
     private Double balance;
 }

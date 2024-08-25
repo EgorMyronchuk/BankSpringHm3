@@ -9,6 +9,8 @@ import app.utils.CardNumberUtils;
 import lombok.RequiredArgsConstructor;
 import app.model.Account;
 import app.model.Customer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import app.utils.CustomCurrency;
 
@@ -30,18 +32,18 @@ public class CustomerService {
         return customerOpt.get();
     }
 
-    public List<Customer> getAllCustomers() {
-        List<Customer> mylist = customerRepository.findAll();;
-        if (mylist.isEmpty()) {
-            throw new EntityNotFoundException("No Customer found");
+    public Page<Customer> getAllCustomers(int page , int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Customer> CustomerList = customerRepository.findAll(pageRequest);
+        if (CustomerList.isEmpty()) {
+            throw new EntityNotFoundException("No Customers found");
         }
         System.out.println(customerRepository.findAll());
-        return mylist;
+        return CustomerList;
     }
 
     public void saveCustomer(Customer customer) {
         customerRepository.save(customer);
-       // System.out.println(customerRepository.findAll());
     }
 
     public void changeCustomer(Long id, Customer customer) {

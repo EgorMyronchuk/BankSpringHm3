@@ -11,11 +11,11 @@ POST http://localhost:9000/customers
 Content-Type: application/json
 
 {
-  "name": "John Doe",
-  "email": "john.doe@example.com",
+  "name": "SomeIa",
+  "email": "johewwqn@gmail.com",
   "age": 90,
-  "password": "1234",
-  "phone": "+312231"
+  "password": "1234321212",
+  "phone": "+38054321607"
 }
 
 ###
