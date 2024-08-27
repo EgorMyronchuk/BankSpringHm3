@@ -37,7 +37,7 @@ public class CustomerController {
             @RequestParam(defaultValue = "0" ) int page,
             @RequestParam(defaultValue = "10") int size) {
         Page<Customer> pagedCustomers = customerService.getAllCustomers(page , size);
-
+       // pagedCustomers.get().map(customerFacade::convertToResponse).collect(Collectors.toList()); Потрібно повертати List<Customer> чи , всеж таки Page<CustomerResponse>?
         return pagedCustomers.map(customerFacade::convertToResponse);
     }
 
